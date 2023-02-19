@@ -3,13 +3,11 @@ import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import RemoveIcon from '@mui/icons-material/Remove'
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material'
-import { color } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
   decreaseCount,
   increaseCount,
-  isCartOpen,
   removeFromCart,
   setIsCartOpen,
 } from '../../state'
@@ -20,11 +18,12 @@ const FlexBox = styled(Box)`
   justify-content: space-between;
   align-items: center;
 `
+
 const CartMenu = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart.cart)
-  const setIsCartOpen = useSelector((state) => state.cart.setIsCartOpen)
+  const isCartOpen = useSelector((state) => state.cart.isCartOpen)
 
   const totalPrice = cart.reduce((total, item) => {
     return total + item.count * item.attributes.price
@@ -33,8 +32,8 @@ const CartMenu = () => {
   return (
     <Box
       display={isCartOpen ? 'block' : 'none'}
-      backgroundColor="rgba(0,0,0,0.4)"
-      postion="fixed"
+      backgroundColor="rgba(0,0,0,0.45)"
+      position="fixed"
       zIndex={10}
       width="100%"
       height="100%"
@@ -46,7 +45,7 @@ const CartMenu = () => {
         position="fixed"
         right="0"
         bottom="0"
-        width="max(400px, 30%"
+        width="max(400px, 30%)"
         height="100%"
         backgroundColor="white"
       >
@@ -114,11 +113,12 @@ const CartMenu = () => {
 
                       {/* price */}
                       <Typography fontWeight="bold">
-                        {item.attributes.price}
+                        ${item.attributes.price}
                       </Typography>
                     </FlexBox>
                   </Box>
                 </FlexBox>
+                <Divider />
               </Box>
             ))}
           </Box>
